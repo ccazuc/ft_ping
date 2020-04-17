@@ -1,6 +1,6 @@
 NAME = ft_ping
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra
 
 CC = gcc
 
@@ -12,6 +12,7 @@ SRCS_NAME = main.c \
 			parse_args.c \
 			print.c \
 			dns.c \
+			connect.c \
 			
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 

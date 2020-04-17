@@ -1,7 +1,7 @@
 #include "ft_ping.h"
 
 
-static void parse_dest(t_env *env, char *arg)
+static int32_t parse_dest(t_env *env, char *arg)
 {
 	uint32_t i = 0;
 	uint8_t digit_count = 0;
@@ -11,22 +11,23 @@ static void parse_dest(t_env *env, char *arg)
 	while (arg[++i])
 	{
 		if (arg[i] != '.' && (arg[i] < '0' || arg[i] > '9'))
-			resolve_dns(env, arg);
+			return resolve_host(env, arg);
 		if (arg[i] == '.')
 		{
 			if (last_char == '.')
-				resolve_dns(env, arg);
+				return resolve_host(env, arg);
 			digit_count = 0;
 			if (++num_count > 3)
-				resolve_dns(env, arg);
+				return resolve_host(env, arg);
 		}
 		else if (++digit_count > 3)
-			resolve_dns(env, arg);
+			return resolve_host(env, arg);
 		last_char = arg[i];
 	}
 	if (num_count != 3 || !digit_count)
-		resolve_dns(env, arg);
+		return resolve_host(env, arg);
 	env->dst = arg;
+	return resolve_host(env, arg);
 }
 
 static void parse_arg(t_env *env, char *arg)
@@ -48,6 +49,8 @@ static void parse_arg(t_env *env, char *arg)
 				print_invalid_param(arg[i]);
 		}
 	}
+	else if (env->dst)
+		print_unknown_dst(arg);
 	else
 		parse_dest(env, arg);
 }
