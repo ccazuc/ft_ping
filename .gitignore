@@ -1,0 +1,6 @@
+ft_ping
+*.o
+*.swp
+*.swo
+obj
+libft/obj
