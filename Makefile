@@ -13,6 +13,9 @@ SRCS_NAME = main.c \
 			print.c \
 			dns.c \
 			connect.c \
+			signal_handlers.c \
+			send_ping.c \
+			build_packet.c \
 			
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
