@@ -34,6 +34,7 @@ typedef struct s_env
 	uint16_t count;
 	uint32_t payload_len;
 	uint32_t packet_len;
+	uint8_t receiving;
 	t_params params;
 	t_packet *packet;
 	
@@ -49,5 +50,6 @@ void init_connect(t_env *env);
 int32_t sighandler(int32_t signal, void *ptr);
 void build_packet(t_env *env);
 void send_ping(t_env *env);
+void receive_ping(t_env *env);
 
 #endif

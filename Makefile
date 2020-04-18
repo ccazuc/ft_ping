@@ -1,6 +1,6 @@
 NAME = ft_ping
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 
 CC = gcc
 
@@ -16,6 +16,7 @@ SRCS_NAME = main.c \
 			signal_handlers.c \
 			send_ping.c \
 			build_packet.c \
+			receive_ping.c \
 			
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 

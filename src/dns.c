@@ -13,10 +13,6 @@ int32_t resolve_host(t_env *env, char *dst)
 	hints.ai_protocol = IPPROTO_ICMP;
 	if (getaddrinfo(dst, NULL, &hints, &result) || !result)
 		print_unknown_dst(dst);
-	printf("getaddrinfo len %d, returned: \'", result->ai_addrlen);
-	for (uint8_t i = 0; i < result->ai_addrlen; ++i)
-		printf("%d", result->ai_addr->sa_data[i]);
-	printf("\'\n");
 	if (!(ip = malloc(INET_ADDRSTRLEN)))
 		ft_exit("Error, malloc for ip failed", EXIT_FAILURE);
 	ft_memset(ip, 0, INET_ADDRSTRLEN);
@@ -27,5 +23,6 @@ int32_t resolve_host(t_env *env, char *dst)
 		ft_exit("Error, malloc for sockaddr failed", EXIT_FAILURE);
 	ft_memcpy(env->sockaddr, result->ai_addr, result->ai_addrlen);
 	env->addrlen = result->ai_addrlen;
+	free (result);
 	return 0;
 }
