@@ -11,6 +11,7 @@
 # include <netdb.h>
 # include <arpa/inet.h>
 # include <signal.h>
+# include <sys/time.h>
 
 typedef struct s_params
 {
@@ -38,7 +39,14 @@ typedef struct s_env
 	uint32_t headers_len;
 	uint8_t receiving;
 	t_params params;
-	t_packet *packet;
+	t_packet *send_packet;
+	t_packet *receive_packet;
+	size_t ping_min;
+	size_t ping_max;
+	size_t ping_total;
+	size_t ping_sent;
+	size_t ping_received;
+	size_t start_time;
 	
 } t_env;
 
@@ -53,5 +61,7 @@ int32_t sighandler(int32_t signal, void *ptr);
 void build_packet(t_env *env);
 void send_ping(t_env *env);
 void receive_ping(t_env *env);
+void build_icmp_checksum(t_env *env);
+size_t get_time(void);
 
 #endif

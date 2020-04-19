@@ -9,13 +9,20 @@ t_env	*init_env(void)
 	env->dst = NULL;
 	env->count = 0;
 	env->params.v = 0;
-	env->payload_len = 51;
+	env->payload_len = 56;
 	env->receiving = 1;
-	env->ip_header_len = sizeof(env->packet->ip_header);
+	env->ip_header_len = sizeof(env->send_packet->ip_header);
 	env->icmp_header_len = ICMP_MINLEN;
 	env->headers_len = env->ip_header_len + env->icmp_header_len;
 	env->packet_len = env->headers_len + env->payload_len;
-	env->packet = NULL;
+	env->send_packet = NULL;
+	env->receive_packet = NULL;
+	env->ping_min = 0xFFFFFFFFFFFFFFFF;
+	env->ping_max = 0;
+	env->ping_total = 0;
+	env->ping_received = 0;
+	env->ping_sent = 0;
+	env->start_time = 0;
 	return env;
 }
 
@@ -32,10 +39,14 @@ int	main(int argc, char **argv)
 	signal(SIGINT, (void (*)(int32_t))sighandler);
 	signal(SIGALRM, (void (*)(int32_t))sighandler);
 	sighandler(1, env);
-	if (!(env->packet = malloc(sizeof(env->packet->ip_header) + sizeof(env->packet->icmp_header) + env->payload_len)))
-		ft_exit("Error, could not malloc packet.", EXIT_FAILURE);
-	memset(env->packet, 0, sizeof(env->packet->ip_header) + sizeof(env->packet->icmp_header) + env->payload_len);
+	if (!(env->send_packet = malloc(sizeof(env->send_packet->ip_header) + sizeof(env->send_packet->icmp_header) + env->payload_len)))
+		ft_exit("Error, could not malloc send_packet.", EXIT_FAILURE);
+	memset(env->send_packet, 0, sizeof(env->send_packet->ip_header) + sizeof(env->send_packet->icmp_header) + env->payload_len);
+	if (!(env->receive_packet = malloc(sizeof(env->receive_packet->ip_header) + sizeof(env->receive_packet->icmp_header) + env->payload_len)))
+		ft_exit("Error, could not malloc recive_packet.", EXIT_FAILURE);
+	memset(env->receive_packet, 0, sizeof(env->receive_packet->ip_header) + sizeof(env->receive_packet->icmp_header) + env->payload_len);
 	build_packet(env);
+	env->start_time = get_time();
 	send_ping(env);
 	alarm(1);
 	while (env->receiving)

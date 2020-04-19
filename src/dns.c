@@ -19,9 +19,6 @@ int32_t resolve_host(t_env *env, char *dst)
 	if (!inet_ntop(AF_INET, &((struct sockaddr_in*)result->ai_addr)->sin_addr, ip, INET_ADDRSTRLEN))
 		print_unknown_dst(dst);
 	env->addr = ip;
-	//if (!(env->sockaddr = malloc(result->ai_addrlen)))
-	//	ft_exit("Error, malloc for sockaddr failed", EXIT_FAILURE);
-	//memcpy(env->sockaddr, result->ai_addr, result->ai_addrlen);
 	if (!(env->sockaddr = malloc(sizeof(*env->sockaddr))))
 		ft_exit("Error, malloc for sockaddr failed", EXIT_FAILURE);
 	memset(env->sockaddr, 0, sizeof(*env->sockaddr));
