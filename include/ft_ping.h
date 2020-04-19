@@ -21,7 +21,6 @@ typedef struct s_packet
 {
 	struct ip ip_header;
 	struct icmp icmp_header;
-	char *payload;
 } t_packet;
 
 typedef struct s_env
@@ -34,6 +33,9 @@ typedef struct s_env
 	uint16_t count;
 	uint32_t payload_len;
 	uint32_t packet_len;
+	uint32_t ip_header_len;
+	uint32_t icmp_header_len;
+	uint32_t headers_len;
 	uint8_t receiving;
 	t_params params;
 	t_packet *packet;

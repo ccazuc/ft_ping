@@ -4,6 +4,8 @@ static void handle_sigalrm(t_env *env)
 {
 	(void)env;
 	printf("sigalarm\n");
+	send_ping(env);
+	alarm(1);
 }
 
 static void handle_sigint(t_env *env)
