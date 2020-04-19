@@ -30,7 +30,33 @@ static int32_t parse_dest(t_env *env, char *arg)
 	return resolve_host(env, arg);
 }
 
-static void parse_arg(t_env *env, char *arg)
+static void parse_c(t_env *env, char *arg, uint8_t i, int32_t *index)
+{
+	int32_t result = ft_atoi(arg + ++i);
+	++*index;
+	if (result <= 0)
+		ft_exit("ping: bad number of packets to transmit.", EXIT_FAILURE);
+	env->params.c = result;
+}
+
+static void parse_s(t_env *env, char *arg, uint8_t i, int32_t *index)
+{
+	int32_t result = ft_atoi(arg + ++i);
+	++*index;
+	if (result <= -1)
+	{
+		printf("ping: illegal negative packet size %d.\n", result);
+		exit(EXIT_FAILURE);
+	}
+	if ((uint32_t)result > 0xFFFF - env->ip_header_len - env->icmp_header_len)
+	{
+		printf("Error: packet size %d is too large. Maximum is %d\n", result, 0xFFFF - env->ip_header_len - env->icmp_header_len);
+		exit(EXIT_FAILURE);
+	}
+	set_payload_len(env, result);
+}
+
+static void parse_arg(t_env *env, char *arg, int32_t *index)
 {
 	if (!arg[0])
 		return;
@@ -43,8 +69,18 @@ static void parse_arg(t_env *env, char *arg)
 		{
 			if (arg[i] == 'h')
 				print_usage(EXIT_SUCCESS);
-			if (arg[i] == 'v')
+			else if (arg[i] == 'v')
 				env->params.v = 1;
+			else if (arg[i] == 'c')
+			{
+				parse_c(env, arg, ++i, index);
+				return;
+			}
+			else if (arg[i] == 's')
+			{
+				parse_s(env, arg, ++i, index);
+				return;
+			}
 			else
 				print_invalid_param(arg[i]);
 		}
@@ -59,5 +95,5 @@ void parse_args(t_env *env, int argc, char **argv)
 {
 	int32_t i = 0;
 	while (++i < argc)
-		parse_arg(env, argv[i]);
+		parse_arg(env, argv[i], &i);
 }

@@ -16,6 +16,8 @@
 typedef struct s_params
 {
 	uint8_t v;
+	uint32_t c;
+	uint32_t s;
 } t_params;
 
 typedef struct s_packet
@@ -63,5 +65,6 @@ void send_ping(t_env *env);
 void receive_ping(t_env *env);
 void build_icmp_checksum(t_env *env);
 size_t get_time(void);
+void set_payload_len(t_env *env, uint32_t len);
 
 #endif

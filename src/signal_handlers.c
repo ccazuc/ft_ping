@@ -1,11 +1,5 @@
 #include "ft_ping.h"
 
-static void handle_sigalrm(t_env *env)
-{
-	send_ping(env);
-	alarm(1);
-}
-
 static void handle_sigint(t_env *env)
 {
 	if (env->ping_sent)
@@ -16,6 +10,14 @@ static void handle_sigint(t_env *env)
 			printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n", env->ping_min / 1000.f, (env->ping_total / env->ping_received) / 1000.f, env->ping_max / 1000.f, 15.f);
 	}
 	exit(EXIT_SUCCESS);
+}
+
+static void handle_sigalrm(t_env *env)
+{
+	if (env->count >= env->params.c)
+		handle_sigint(env);
+	send_ping(env);
+	alarm(1);
 }
 
 int32_t sighandler(int32_t signal, void *ptr)

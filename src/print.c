@@ -2,7 +2,7 @@
 
 void print_usage(int32_t code)
 {
-	printf("Usage: ping [-vh] destination\n");
+	printf("Usage: ping [-vh] [-c count] [-s packetsize] destination\n");
 	exit(code);
 }
 
