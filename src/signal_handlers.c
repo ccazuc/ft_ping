@@ -4,7 +4,7 @@ static void handle_sigint(t_env *env)
 {
 	if (env->ping_sent)
 	{
-		printf("--- %s ping statistics ---\n", env->dst);
+		printf("\n--- %s ping statistics ---\n", env->dst);
 		printf("%ld packets transmitted, %ld received, %.0f%% packet loss, time %ldms\n", env->ping_sent, env->ping_received, (env->ping_sent - env->ping_received) / (float)env->ping_sent * 100.f, (get_time() - env->start_time) / 1000);
 		if (env->ping_received)
 			printf("rtt min/avg/max/mdev = %.3f/%.3f/%.3f/%.3f ms\n", env->ping_min / 1000.f, (env->ping_total / env->ping_received) / 1000.f, env->ping_max / 1000.f, 15.f);
