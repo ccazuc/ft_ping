@@ -17,6 +17,7 @@ t_env	*init_env(void)
 	env->packet_len = env->headers_len + env->payload_len;
 	env->send_packet = NULL;
 	env->receive_packet = NULL;
+	env->addr_name = NULL;
 	env->ping_min = 0xFFFFFFFFFFFFFFFF;
 	env->ping_max = 0;
 	env->ping_total = 0;

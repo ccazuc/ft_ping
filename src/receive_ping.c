@@ -26,7 +26,7 @@ void receive_ping(t_env *env)
 		return;
 	}
 	++env->ping_received;
-	printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d", received - sizeof(env->receive_packet->ip_header), env->dst, env->addr, env->receive_packet->icmp_header.icmp_hun.ih_idseq.icd_seq, env->receive_packet->ip_header.ip_ttl);
+	printf("%ld bytes from %s (%s): icmp_seq=%d ttl=%d", received - sizeof(env->receive_packet->ip_header), env->addr_name ? env->addr_name : env->dst, env->addr, env->receive_packet->icmp_header.icmp_hun.ih_idseq.icd_seq, env->receive_packet->ip_header.ip_ttl);
 	if (((uint32_t) received - env->headers_len) >= sizeof(size_t))
 	{
 		size_t time = 0;

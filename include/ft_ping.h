@@ -30,6 +30,7 @@ typedef struct s_env
 {
 	char *dst;
 	char *addr;
+	char *addr_name;
 	struct sockaddr *sockaddr;
 	int32_t fd;
 	uint8_t addrlen;

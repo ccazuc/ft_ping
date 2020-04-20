@@ -24,6 +24,17 @@ int32_t resolve_host(t_env *env, char *dst)
 	memset(env->sockaddr, 0, sizeof(*env->sockaddr));
 	memcpy(env->sockaddr, result->ai_addr, result->ai_addrlen);
 	env->addrlen = result->ai_addrlen;
+  	struct in_addr addr;
+	if(inet_aton(env->addr, &addr))
+	{
+		struct hostent *hent;
+		if((hent = gethostbyaddr((char *)&(addr.s_addr), sizeof(addr.s_addr), AF_INET)))
+		{
+			if (!(env->addr_name = malloc(strlen(hent->h_name) + 1)))
+				ft_exit("Error, malloc for hostname failed", EXIT_FAILURE);
+			strcpy(env->addr_name, hent->h_name);
+		}
+	}
 	free (result);
 	return 0;
 }
