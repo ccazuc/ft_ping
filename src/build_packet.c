@@ -40,7 +40,6 @@ void build_icmp_checksum(t_env *env)
 	while (sum > 0xFFFF)
 		sum = (sum & 0xFFFF) + (sum >> 16);
 	env->send_packet->icmp_header.icmp_cksum = ~sum & 0xFFFF;
-	//printf("icmp_header_checksum %x\n", ~sum & 0xFFFF);
 }
 
 static void build_icmp_header(t_env *env)
@@ -55,7 +54,7 @@ static void build_icmp_header(t_env *env)
 
 void build_packet(t_env *env)
 {
-	for (uint8_t i = env->packet_len - env->payload_len; i < env->packet_len - 1; ++i)
+	for (uint32_t i = env->packet_len - env->payload_len; i < env->packet_len - 1; ++i)
 		((unsigned char*)env->send_packet)[i] = 2;
 	((unsigned char*)env->send_packet)[env->packet_len - 1] = 3;
 	build_ip_header(env);
